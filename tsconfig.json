@@ -1,0 +1,10 @@
+// 타입스크립트를 자바스크립트로 변환하는 옵션 (tsc 명령시)
+{
+  "compilerOptions": {
+    "module": "commonjs", // nodejs. import/export 등
+    "target": "ES2015", // 어떤 버전의 JS로 컴파일되는지
+    "sourceMap": true
+  },
+  "include": ["index.ts"], // 컴파일 과정에 포함할 파일의 배열
+  "exclude": ["node_modules"] // 제외
+}
