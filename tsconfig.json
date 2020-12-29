@@ -3,8 +3,9 @@
   "compilerOptions": {
     "module": "commonjs", // nodejs. import/export 등
     "target": "ES2015", // 어떤 버전의 JS로 컴파일되는지
-    "sourceMap": true
+    "sourceMap": true,
+    "outDir": "dist"
   },
-  "include": ["index.ts"], // 컴파일 과정에 포함할 파일의 배열
+  "include": ["src/**/*"], // 컴파일 과정에 포함할 파일의 배열
   "exclude": ["node_modules"] // 제외
 }
