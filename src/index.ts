@@ -1,3 +1,5 @@
+import * as CryptoJS from "crypto-js";
+
 class Block {
   public index: number;
   public hash: string;
@@ -17,12 +19,24 @@ class Block {
     this.data = data;
     this.timestamp = timestamp;
   }
+
+  // static method : 클래스가 생성되지 않아도 호출할 수 있음
+  static calculateBlockHash = (
+    index: number,
+    prevHash: string,
+    data: string,
+    timestamp: number
+  ): string => CryptoJS.SHA256(index + prevHash + timestamp + data).toString();
 }
 
 const genesisBlock: Block = new Block(0, "12323", "", "Hello", 123456);
 
-let blockchain: [Block] = [genesisBlock];
+let blockchain: Block[] = [genesisBlock];
 
-console.log(blockchain);
+const getBlockchain = (): Block[] => blockchain;
 
-export {}; // 타입스크립트 룰
+const getLatestBlock = (): Block => blockchain[blockchain.length - 1];
+
+const getNewTimeStamp = (): number => Math.round(new Date().getTime() / 1000);
+
+export {};
