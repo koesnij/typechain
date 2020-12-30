@@ -67,13 +67,35 @@ const createNewBlock = (data: string): Block => {
   return newBlock;
 };
 
+const getHashforBlock = (aBlock: Block): string =>
+  Block.calculateBlockHash(
+    aBlock.index,
+    aBlock.prevHash,
+    aBlock.data,
+    aBlock.timestamp
+  );
+
 const isBlockValid = (candidateBlock: Block, prevBlock: Block): Boolean => {
   if (!Block.validateStructure(candidateBlock)) {
+    // 구조 검증
     return false;
   } else if (prevBlock.index + 1 !== candidateBlock.index) {
+    // 인덱스 검증
     return false;
   } else if (prevBlock.hash === candidateBlock.prevHash) {
+    // 연결되어있는지 검증
     return false;
+  } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+    // 해쉬값이 타당한지 검증
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const addBlock = (candidateBlock: Block): void => {
+  if (isBlockValid(candidateBlock, getLatestBlock())) {
+    blockchain.push(candidateBlock);
   }
 };
 
