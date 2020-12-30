@@ -83,7 +83,7 @@ const isBlockValid = (candidateBlock: Block, prevBlock: Block): boolean => {
   } else if (prevBlock.index + 1 !== candidateBlock.index) {
     // 인덱스 검증
     return false;
-  } else if (prevBlock.hash === candidateBlock.prevHash) {
+  } else if (prevBlock.hash !== candidateBlock.prevHash) {
     // 연결되어있는지 검증
     return false;
   } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
