@@ -1,11 +1,27 @@
 import * as CryptoJS from "crypto-js";
 
 class Block {
+  // static method : 클래스가 생성되지 않아도 호출할 수 있음
+  static calculateBlockHash = (
+    index: number,
+    prevHash: string,
+    data: string,
+    timestamp: number
+  ): string => CryptoJS.SHA256(index + prevHash + timestamp + data).toString();
+
+  static validateStructure = (aBlock: Block): boolean =>
+    typeof aBlock.index === "number" &&
+    typeof aBlock.hash === "string" &&
+    typeof aBlock.prevHash === "string" &&
+    typeof aBlock.timestamp === "number" &&
+    typeof aBlock.data === "string";
+
   public index: number;
   public hash: string;
   public prevHash: string;
   public data: string;
   public timestamp: number;
+
   constructor(
     index: number,
     hash: string,
@@ -19,14 +35,6 @@ class Block {
     this.data = data;
     this.timestamp = timestamp;
   }
-
-  // static method : 클래스가 생성되지 않아도 호출할 수 있음
-  static calculateBlockHash = (
-    index: number,
-    prevHash: string,
-    data: string,
-    timestamp: number
-  ): string => CryptoJS.SHA256(index + prevHash + timestamp + data).toString();
 }
 
 const genesisBlock: Block = new Block(0, "12323", "", "Hello", 123456);
@@ -57,6 +65,16 @@ const createNewBlock = (data: string): Block => {
     newTimestamp
   );
   return newBlock;
+};
+
+const isBlockValid = (candidateBlock: Block, prevBlock: Block): Boolean => {
+  if (!Block.validateStructure(candidateBlock)) {
+    return false;
+  } else if (prevBlock.index + 1 !== candidateBlock.index) {
+    return false;
+  } else if (prevBlock.hash === candidateBlock.prevHash) {
+    return false;
+  }
 };
 
 console.log(createNewBlock("Hello"), createNewBlock("ByeBye"));
