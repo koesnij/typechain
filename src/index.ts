@@ -64,6 +64,7 @@ const createNewBlock = (data: string): Block => {
     data,
     newTimestamp
   );
+  addBlock(newBlock);
   return newBlock;
 };
 
@@ -75,7 +76,7 @@ const getHashforBlock = (aBlock: Block): string =>
     aBlock.timestamp
   );
 
-const isBlockValid = (candidateBlock: Block, prevBlock: Block): Boolean => {
+const isBlockValid = (candidateBlock: Block, prevBlock: Block): boolean => {
   if (!Block.validateStructure(candidateBlock)) {
     // 구조 검증
     return false;
@@ -95,10 +96,15 @@ const isBlockValid = (candidateBlock: Block, prevBlock: Block): Boolean => {
 
 const addBlock = (candidateBlock: Block): void => {
   if (isBlockValid(candidateBlock, getLatestBlock())) {
+    console.log("block added!");
     blockchain.push(candidateBlock);
   }
 };
 
-console.log(createNewBlock("Hello"), createNewBlock("ByeBye"));
+createNewBlock("2nd block");
+createNewBlock("3rd block");
+createNewBlock("4th block");
+
+console.log(blockchain);
 
 export {};
